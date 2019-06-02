@@ -18,18 +18,17 @@ const SwapiData = props => {
   }
 
   useEffect(() => {
-    localStorage.getItem(`data-${baseURL}?page=1`) ? (
+    getCache(1) ? (
       setState({
         loading: false,
-        people: JSON.parse(localStorage.getItem(`data-${baseURL}?page=1`)),
+        people: getCache(1),
         page: 1
       })
     ) :
 
     axios.get(`${baseURL}?page=1`)
     .then(({ data }) => {
-      console.log('mounting')
-      localStorage.setItem(`data-${baseURL}?page=1`, JSON.stringify(data))
+      setCache(1, data)
       setState({
         loading: false,
         people: data,
@@ -73,16 +72,16 @@ const SwapiData = props => {
       loading: true
     })
     const previousPage = state.page - 1
-    localStorage.getItem(`data-${baseURL}?page=${previousPage}`) ? (
+    getCache(previousPage) ? (
       setState({
         loading: false,
-        people: JSON.parse(localStorage.getItem(`data-${baseURL}?page=${previousPage}`)),
+        people: getCache(previousPage),
         page: previousPage
       })
     ) :
     axios.get(state.people.previous)
     .then(({ data }) => {
-      localStorage.setItem((`data-${baseURL}?page=${previousPage}`), JSON.stringify(data))
+      setCache(previousPage, data)
       setState({
         loading: false,
         people: data,
