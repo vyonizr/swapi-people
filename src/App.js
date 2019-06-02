@@ -1,24 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import "@qlue-ui/react-component/dist/styles.css";
+import {
+  Container
+} from 'semantic-ui-react'
+import SwapiData from './components/SwapiData.Hooks'
+import Loading from './components/Loading'
+import SwapiTable from './components/SwapiTable'
+import SwapiGraph from './components/SwapiGraph'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Container>
+        <SwapiData
+          render={({ loading, people, page, nextPage, previousPage }) => loading ? <Loading vizType={'table'}/> : <SwapiTable people={ people } page={ page } nextPage={ nextPage } previousPage={ previousPage } />}
+        />
+
+        <SwapiData
+          render={({ loading, people, page, nextPage, previousPage }) => loading ? <Loading vizType={'graph'} /> : <SwapiGraph people={ people } page={ page } nextPage={ nextPage } previousPage={ previousPage } />}
+        />
+      </Container>
     </div>
   );
 }
