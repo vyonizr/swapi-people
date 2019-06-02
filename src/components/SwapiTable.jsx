@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Grid,
   Table,
   Button,
   Icon
 } from 'semantic-ui-react'
+import { Store } from '../Store'
 
-const SwapiTable = ({ people, page, nextPage, previousPage }) => {
+const SwapiTable = ({ nextPage, previousPage }) => {
+  const { state } = useContext(Store)
   return (
     <>
       <Table celled striped compact>
@@ -23,9 +25,9 @@ const SwapiTable = ({ people, page, nextPage, previousPage }) => {
 
         <Table.Body>
           {
-            people.results.map((person, i) => (
+            state.people.results.map((person, i) => (
             <Table.Row key={person.name}>
-              <Table.Cell>{ (page - 1) * 10 + (i + 1) }</Table.Cell>
+              <Table.Cell>{ (state.page - 1) * 10 + (i + 1) }</Table.Cell>
               <Table.Cell>{ person.name }</Table.Cell>
               <Table.Cell>{ person.height }</Table.Cell>
               <Table.Cell>{ person.mass }</Table.Cell>
@@ -41,20 +43,20 @@ const SwapiTable = ({ people, page, nextPage, previousPage }) => {
         <Grid.Row>
           <Grid.Column>
             {
-              page > 1 &&
+              state.page > 1 &&
               <Button icon labelPosition='left' primary onClick={ previousPage }>
                 Previous
                 <Icon name='left arrow' />
               </Button>
             }
           </Grid.Column>
-          <Grid.Column>
-            <p>Page { page } of { people.count }</p>
-          </Grid.Column>
+            <Grid.Column>
+              <p>Page { state.page } of { -~(state.people.count / 10) }</p>
+            </Grid.Column>
           <Grid.Column>
             {
-              page < people.count &&
-              <Button icon labelPosition='right' primary onClick={nextPage}>
+              state.page < -~(state.people.count / 10) &&
+              <Button icon labelPosition='right' primary onClick={ nextPage }>
                 Next
                 <Icon name='right arrow' />
               </Button>
