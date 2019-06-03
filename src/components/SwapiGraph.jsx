@@ -44,11 +44,11 @@ const SwapiGraph = props => {
             }
           </Grid.Column>
           <Grid.Column>
-            <p>Page { page } of { people.count }</p>
+            <p>Page { page } of { -~(people.count / 10) }</p>
           </Grid.Column>
           <Grid.Column>
             {
-              page < people.count &&
+              page < -~(people.count / 10) &&
               <Button icon labelPosition='right' primary onClick={nextPage}>
                 Next
                 <Icon name='right arrow' />
